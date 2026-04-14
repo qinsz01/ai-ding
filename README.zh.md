@@ -1,53 +1,74 @@
 [English](README.md) | **中文**
 
-<h1 align="center">notify-me</h1>
+<h1 align="center">🔔 notify-me</h1>
 
 <p align="center">
-  <strong>AI 编程助手的跨平台通知工具</strong>
+  <strong>再也不用盯着终端等 AI 回复了。</strong>
 </p>
 
 <p align="center">
   <a href="https://www.npmjs.com/package/notify-me"><img src="https://img.shields.io/npm/v/notify-me.svg" alt="npm"></a>
-  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+  <a href="https://github.com/qinsz01/notify-me/actions"><img src="https://img.shields.io/github/actions/workflow/status/qinsz01/notify-me/ci.yml?branch=master" alt="CI"></a>
+  <a href="https://www.npmjs.com/package/notify-me"><img src="https://img.shields.io/npm/dw/notify-me" alt="downloads"></a>
   <img src="https://img.shields.io/badge/Node.js-18%2B-brightgreen" alt="Node.js">
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+  <a href="https://github.com/qinsz01/notify-me/issues"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
 </p>
 
 <p align="center">
-  当 Claude Code 或 Codex CLI 完成回复时，自动发送通知。<br>
-  支持桌面弹窗、声音提醒、Telegram、Bark、Server酱、Slack、邮件 —— 按需选择通知渠道。
+  <strong>Claude Code</strong> 和 <strong>Codex CLI</strong> 的跨平台通知工具。<br>
+  桌面弹窗、声音提醒、Telegram、Bark、Server酱、Slack、邮件 —— 按需选择。<br>
+  SSH 远程也能用，基础功能零配置。
 </p>
 
 ---
 
-## 功能特性
+## 为什么需要 notify-me？
 
-- **桌面通知** — macOS 和 Linux 原生弹窗，开箱即用
-- **声音提醒** — 终端响铃，SSH 远程也能用
-- **即时消息** — Telegram Bot、Bark（iOS）、Server酱（微信）、Slack Webhook
-- **邮件通知** — 支持任意 SMTP 邮件服务
-- **SSH 感知** — 自动检测远程环境，桌面 → 响铃 → 推送 逐级降级
-- **双平台插件** — 一套代码，同时支持 Claude Code 和 Codex CLI
+你运行 `claude` 然后等……等……10 分钟后发现它 5 分钟前就完成了。更糟的是 —— 它在问你问题，你根本没注意到。
+
+**notify-me 在 AI 需要你关注时立即提醒：**
+
+- **回复结束时** — 附带回复内容摘要
+- **问你问题时** — 直接看到问题文本
+- **请求权限时** — 不再错过审批对话框
+- **等待你操作时** — 再也不会漏掉提示
+
+## 支持的通知渠道
+
+| 渠道 | macOS | Linux | SSH | 需要配置 |
+|------|:-----:|:-----:|:---:|:--------:|
+| **桌面弹窗** | ✅ | ✅ | ❌ | 无 |
+| **声音提醒** | ✅ | ✅ | ✅ | 无 |
+| **Telegram** | ✅ | ✅ | ✅ | Bot token |
+| **Slack** | ✅ | ✅ | ✅ | Webhook URL |
+| **Bark**（iOS） | ✅ | ✅ | ✅ | Device key |
+| **Server酱**（微信） | ✅ | ✅ | ✅ | SendKey |
+| **ntfy.sh** | ✅ | ✅ | ✅ | Topic URL |
+| **邮件** | ✅ | ✅ | ✅ | SMTP 凭据 |
+
+声音和桌面弹窗开箱即用。在 `~/.notify-me.yaml` 中启用更多渠道。
 
 ## 快速开始
 
-### 作为 CLI 工具安装
-
-```bash
-npm install -g notify-me
-notify-me --init    # 创建 ~/.notify-me.yaml 配置文件
-notify-me --test    # 测试所有已启用的通知渠道
-```
-
-### 作为 Claude Code 插件安装
+### 作为 Claude Code 插件（推荐）
 
 ```
 /plugin marketplace add qinsz01/notify-me
 /plugin install notify-me@qinsz01
 ```
 
-安装后，每次 Claude 回复完毕都会自动通知你。
+就这样。Claude 回复结束、提问、请求权限时都会自动通知你。
 
-### 作为 Codex CLI 插件安装
+### 作为 CLI 工具
+
+```bash
+npm install -g notify-me
+notify-me --init    # 创建 ~/.notify-me.yaml
+notify-me --test    # 测试所有已启用的通知渠道
+```
+
+### 作为 Codex CLI 插件
 
 将 marketplace 添加到 `~/.agents/plugins/marketplace.json` 或项目仓库的 `.agents/plugins/marketplace.json`，然后通过 `/plugins` 安装。
 
@@ -59,6 +80,9 @@ notify-me "构建完成"
 
 # 指定标题
 notify-me --title "CI 流水线" "所有测试通过"
+
+# 只发送到指定渠道
+notify-me --channel telegram "部署失败"
 
 # 禁用特定渠道
 notify-me --no-desktop --no-sound "静默提醒"
@@ -72,16 +96,16 @@ notify-me --init
 
 ### 输出反馈
 
-每次调用都会打印各渠道的发送结果，让你清楚了解通知状态：
+每次调用都会打印各渠道的发送结果：
 
 ```
 [notify-me] ✓ sound: terminal bell
-[notify-me] ✓ telegram: sent to chat 123456
+[notify-me] ✓ telegram: sent to chat 1234...
 [notify-me] ✓ slack: sent to Slack webhook
 [notify-me] Done: 3 sent.
 ```
 
-如果某个渠道发送失败，会显示具体错误信息：
+如果某个渠道发送失败，会显示具体错误：
 
 ```
 [notify-me] ✓ sound: terminal bell
@@ -89,11 +113,18 @@ notify-me --init
 [notify-me] Done: 1 sent, 1 failed.
 ```
 
-当没有配置任何渠道时，会提示：
+### 智能通知（插件模式）
 
-```
-[notify-me] No channels enabled or configured.
-```
+作为 Claude Code 插件安装后，notify-me 会发送上下文感知的通知：
+
+| 触发时机 | 通知内容 |
+|----------|---------|
+| Claude 回复结束 | 最后一条回复的摘要 |
+| Claude 提问 | 问题文本 |
+| Claude 请求权限 | "Permission needed: Bash" |
+| Claude 等待操作 | "Claude is waiting for your input" |
+
+Subagent 活动（Explore、code-reviewer 等）**不会触发通知** —— 只在你需要操作时才提醒。
 
 ## 配置
 
@@ -105,6 +136,7 @@ channels:
     enabled: true
   sound:
     enabled: true
+    file: null           # 可选：自定义音频文件路径
   ntfy:
     enabled: false
     url: "https://ntfy.sh/your-topic"
@@ -171,64 +203,41 @@ defaults:
 
 ### 开启 SSH 终端响铃
 
-终端响铃能不能发出声音，取决于你的**本地终端软件**。以下是各终端的开启方法：
-
 | 终端 | 开启方法 |
 |------|---------|
-| **Windows Terminal** | 打开 `settings.json`（设置 → 左下角"打开 JSON 文件"），在 profile 中添加：`"bellStyle": "audible"` 或 `"bellStyle": "all"`。还可以用 `"bellSound": "C:/path/to/bell.wav"` 自定义铃声 |
+| **Windows Terminal** | 打开 `settings.json`，在 profile 中添加 `"bellStyle": "audible"` |
 | **iTerm2**（macOS） | Preferences → Profiles → Terminal → 勾选 "Audible bell" |
 | **macOS Terminal** | 偏好设置 → 描述文件 → 高级 → 勾选 "声音响铃" |
-| **VS Code Terminal** | 设置中添加：`"terminal.integrated.enableBell": true` |
+| **VS Code Terminal** | 设置中添加 `"terminal.integrated.enableBell": true` |
 | **PuTTY** | Configuration → Terminal → Bell → 设为 "Play default sound" |
-| **tmux** | 在 `~/.tmux.conf` 中添加：`set -g bell-action any` |
+| **tmux** | 在 `~/.tmux.conf` 中添加 `set -g bell-action any` |
 
-> **注意：** 通过 tmux + SSH 使用终端响铃不可靠。如果你使用 tmux，强烈建议配置 ntfy.sh（见下方）而不是依赖终端响铃。
-
-设置完成后，用这个命令测试：`printf '\a'` — 应该能听到"嘟"的一声。如果在 tmux 中，先脱离（`Ctrl+B` 然后 `D`）再测试。
+> **注意：** 通过 tmux + SSH 使用终端响铃不可靠。如果你使用 tmux，强烈建议配置 ntfy.sh。
 
 ### 配置 ntfy.sh（SSH 推荐方案）
 
 ntfy.sh 是 SSH 下最可靠的通知方式。无需注册，服务器端不需要安装任何东西。
 
-**第一步：选一个唯一的主题名**
+**第一步：** 选一个唯一的主题名：`my-dev-notifications-a1b2c3`
 
-主题名类似频道名 — 知道名字的人都能发送/接收。建议用难以猜到的名字：
+**第二步：** 在你的设备上订阅：
+- **手机**：安装 [ntfy 应用](https://ntfy.sh)（[iOS](https://apps.apple.com/us/app/ntfy/id1625396347) / [Android](https://play.google.com/store/apps/details?id=io.heckel.ntfy)）
+- **浏览器**：打开 `https://ntfy.sh/your-topic-name` 允许通知
 
-```
-my-dev-notifications-a1b2c3
-```
-
-**第二步：在你的设备上订阅**
-
-- **手机**：安装 [ntfy 应用](https://ntfy.sh)（[iOS](https://apps.apple.com/us/app/ntfy/id1625396347) / [Android](https://play.google.com/store/apps/details?id=io.heckel.ntfy)），订阅你的主题
-- **浏览器**：打开 `https://ntfy.sh/your-topic-name`，允许通知
-- **桌面**：使用 [ntfy 桌面版](https://ntfy.sh) 或 PWA
-
-**第三步：配置 notify-me**
+**第三步：** 配置：
 
 ```yaml
-# ~/.notify-me.yaml
 channels:
   ntfy:
     enabled: true
     url: "https://ntfy.sh/my-dev-notifications-a1b2c3"
 ```
 
-或者直接用环境变量（无需配置文件）：
+或者直接用环境变量：
 
 ```bash
 export NOTIFY_ME_NTFY_URL="https://ntfy.sh/my-dev-notifications-a1b2c3"
 ```
-
-**第四步：测试**
-
-```bash
-notify-me "Hello from notify-me"
-```
-
-几秒内你应该能在订阅设备上收到推送通知。
-
-> **提示**：如果推送内容敏感，可以[自建 ntfy.sh](https://docs.ntfy.sh/install/) 或开启[访问控制](https://docs.ntfy.sh/config/#access-control)。
 
 ## 工作原理
 
@@ -238,9 +247,8 @@ notify-me "Hello from notify-me"
   ├─ 本地桌面环境？
   │    ├─ 是 → 桌面弹窗 + 声音提醒
   │    └─ 否（SSH/CI） → 降级策略：
-  │         ├─ 终端响铃 (\a) — 零配置，始终可用
-  │         ├─ ntfy.sh 推送 — 只需一个 URL
-  │         └─ 本地中继 — SSH 隧道转发完整桌面弹窗
+  │         ├─ 终端响铃 (\a) — 零配置
+  │         └─ ntfy.sh 推送 — 只需一个 URL
   │
   └─ 并行推送：Telegram / Bark / Slack / 邮件
                （启用即发送，不受环境影响）
@@ -308,27 +316,6 @@ slack:
 </details>
 
 <details>
-<summary>ntfy.sh（SSH 远程降级方案）</summary>
-
-免费开源推送通知服务。**无需注册。** SSH 下最佳方案。
-
-1. 选一个唯一的主题名（如 `my-dev-alerts-xyz123`）
-2. 在你的设备上订阅：
-   - **iOS**：[App Store](https://apps.apple.com/us/app/ntfy/id1625396347)
-   - **Android**：[Google Play](https://play.google.com/store/apps/details?id=io.heckel.ntfy)
-   - **浏览器**：打开 `https://ntfy.sh/your-topic` 允许通知
-3. 测试：`curl -d "Hello" https://ntfy.sh/your-topic`
-
-```yaml
-ntfy:
-  enabled: true
-  url: "https://ntfy.sh/your-topic-name"
-```
-
-自建服务：`docker run -p 80:80 binwiederhier/ntfy serve` — 详见 [文档](https://docs.ntfy.sh/install/)。
-</details>
-
-<details>
 <summary>邮件通知（SMTP）</summary>
 
 支持任意 SMTP 服务（Gmail、SendGrid、Mailgun 等）。
@@ -345,6 +332,32 @@ email:
   user: "you@gmail.com"
   password: "your-app-password"
 ```
+</details>
+
+## 常见问题
+
+<details>
+<summary>SSH 远程能用吗？</summary>
+
+可以。终端响铃（`\a`）无需配置即可在 SSH 下工作。如果需要更可靠的通知，推荐配置 ntfy.sh —— 只需一个 URL 就能推送通知到手机/浏览器。
+</details>
+
+<details>
+<summary>不配置能用吗？</summary>
+
+可以。`npm install -g notify-me` 安装后声音和桌面通知立即生效。如需更多渠道（Telegram、Slack 等），运行 `notify-me --init` 编辑配置。
+</details>
+
+<details>
+<summary>可以同时启用多个渠道吗？</summary>
+
+可以。所有已启用的渠道并行发送。你可以同时收到桌面弹窗 + 声音 + Telegram + 邮件。
+</details>
+
+<details>
+<summary>和 cc-notify 有什么区别？</summary>
+
+cc-notify 是一个 Tauri 桌面应用（Rust + React），较重。notify-me 是轻量 Node.js CLI —— 秒装，不需要 GUI。notify-me 还支持中国特色渠道（Server酱、Bark），同时兼容 Claude Code 和 Codex CLI。
 </details>
 
 ## 参与贡献

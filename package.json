@@ -38,6 +38,7 @@
     ".claude-plugin",
     ".codex-plugin",
     "default-config.yaml",
+    "CHANGELOG.md",
     "README.md",
     "LICENSE"
   ],
