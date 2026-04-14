@@ -62,6 +62,9 @@ async function handleHook(): Promise<void> {
     return;
   }
 
+  // Skip subagent events — only notify for user-facing main agent actions
+  if (data.agent_id) return;
+
   const event = data.hook_event_name as string | undefined;
   const config = loadConfig();
   const env = detectEnvironment();
