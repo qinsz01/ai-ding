@@ -6,10 +6,7 @@
   "plugins": [
     {
       "name": "notify-me",
-      "source": {
-        "source": "local",
-        "path": "."
-      },
+      "source": "./",
       "description": "Cross-platform notifications for Claude Code — desktop, sound, Telegram, Bark, Slack, email, and more. Works over SSH.",
       "version": "1.0.0"
     }

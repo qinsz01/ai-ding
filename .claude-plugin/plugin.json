@@ -7,6 +7,5 @@
   },
   "license": "MIT",
   "keywords": ["notification", "alert", "telegram", "slack", "bark", "sound", "email", "ssh"],
-  "hooks": "./hooks/hooks.json",
   "skills": "./skills/"
 }
