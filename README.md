@@ -120,9 +120,12 @@ When installed as a Claude Code plugin, ai-ding sends contextual notifications:
 | When | Notification |
 |------|-------------|
 | Claude finishes responding | Summary of the last message |
+| API error occurs | "API Error: rate_limit: 429 Too Many Requests" |
 | Claude asks a question | The question text |
+| Plan needs approval | "Plan ready for your approval" |
 | Claude needs permission | "Permission needed: Bash" |
 | Claude waits for input | "Claude is waiting for your input" |
+| Other notifications (errors, etc.) | Forwards the notification message |
 
 Subagent activity (Explore, code-reviewer, etc.) is **not** notified — only main agent actions that require your attention.
 

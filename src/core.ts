@@ -13,6 +13,9 @@ function buildNotifiers(config: Config, env: Environment, channel?: string): Not
   const ch = config.channels;
 
   // Network notifiers: always fire if enabled, regardless of env
+  if (ch.ntfy.enabled && ch.ntfy.url) {
+    notifiers.push(new NtfyNotifier(ch.ntfy.url));
+  }
   if (ch.telegram.enabled && ch.telegram.bot_token && ch.telegram.chat_id) {
     notifiers.push(new TelegramNotifier(ch.telegram.bot_token, ch.telegram.chat_id));
   }
@@ -37,9 +40,6 @@ function buildNotifiers(config: Config, env: Environment, channel?: string): Not
     // SSH/CI fallback
     for (const name of config.remote.fallback_order) {
       if (name === "sound" && ch.sound.enabled) notifiers.push(new SoundNotifier(ch.sound.file));
-      if (name === "ntfy" && ch.ntfy.enabled && ch.ntfy.url) {
-        notifiers.push(new NtfyNotifier(ch.ntfy.url));
-      }
     }
   }
 

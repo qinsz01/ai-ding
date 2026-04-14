@@ -120,9 +120,12 @@ ai-ding --init
 | 触发时机 | 通知内容 |
 |----------|---------|
 | Claude 回复结束 | 最后一条回复的摘要 |
+| API 错误发生 | "API Error: rate_limit: 429 Too Many Requests" |
 | Claude 提问 | 问题文本 |
+| 计划需要审批 | "Plan ready for your approval" |
 | Claude 请求权限 | "Permission needed: Bash" |
 | Claude 等待操作 | "Claude is waiting for your input" |
+| 其他通知（错误等） | 转发通知消息 |
 
 Subagent 活动（Explore、code-reviewer 等）**不会触发通知** —— 只在你需要操作时才提醒。
 

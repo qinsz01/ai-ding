@@ -16,9 +16,12 @@ All notable changes to this project will be documented in this file.
 - SSH-aware environment detection with progressive fallback
 - Contextual hook-mode notifications for Claude Code:
   - Stop: shows last assistant message summary
+  - StopFailure: alerts on API errors (rate_limit, server_error, etc.)
   - AskUserQuestion: shows the question text
+  - ExitPlanMode: alerts when plan is ready for approval
   - PermissionRequest: alerts on permission dialogs
-  - Notification (idle_prompt): alerts when waiting for input
+  - Notification (idle_prompt/permission_prompt): alerts when waiting for input
+  - Notification (other): forwards all other notification messages
 - Per-channel success/failure feedback with ✓/✗ output
 - `--title` and `--channel` CLI options
 - `--hook` flag for stdin-based event processing
