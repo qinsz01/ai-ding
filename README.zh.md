@@ -136,6 +136,72 @@ defaults:
 
 环境变量优先级高于 YAML 配置文件。
 
+## SSH 远程环境设置
+
+通过 SSH 连接时，桌面通知无法传到你的本地电脑。notify-me 使用逐级降级策略：
+
+1. **终端响铃 (`\a`)** — 零配置，但需要你的本地终端支持
+2. **ntfy.sh** — 推送通知到手机/浏览器，只需配置一个 URL
+
+### 开启 SSH 终端响铃
+
+终端响铃能不能发出声音，取决于你的**本地终端软件**。以下是各终端的开启方法：
+
+| 终端 | 开启方法 |
+|------|---------|
+| **Windows Terminal** | 打开 `settings.json`（设置 → 左下角"打开 JSON 文件"），在 profile 中添加：`"bellStyle": "audible"` 或 `"bellStyle": "all"`。还可以用 `"bellSound": "C:/path/to/bell.wav"` 自定义铃声 |
+| **iTerm2**（macOS） | Preferences → Profiles → Terminal → 勾选 "Audible bell" |
+| **macOS Terminal** | 偏好设置 → 描述文件 → 高级 → 勾选 "声音响铃" |
+| **VS Code Terminal** | 设置中添加：`"terminal.integrated.enableBell": true` |
+| **PuTTY** | Configuration → Terminal → Bell → 设为 "Play default sound" |
+| **tmux** | 在 `~/.tmux.conf` 中添加：`set -g bell-action any` |
+
+设置完成后，用这个命令测试：`printf '\a'` — 应该能听到"嘟"的一声。
+
+### 配置 ntfy.sh（SSH 推荐方案）
+
+ntfy.sh 是 SSH 下最可靠的通知方式。无需注册，服务器端不需要安装任何东西。
+
+**第一步：选一个唯一的主题名**
+
+主题名类似频道名 — 知道名字的人都能发送/接收。建议用难以猜到的名字：
+
+```
+my-dev-notifications-a1b2c3
+```
+
+**第二步：在你的设备上订阅**
+
+- **手机**：安装 [ntfy 应用](https://ntfy.sh)（[iOS](https://apps.apple.com/us/app/ntfy/id1625396347) / [Android](https://play.google.com/store/apps/details?id=io.heckel.ntfy)），订阅你的主题
+- **浏览器**：打开 `https://ntfy.sh/your-topic-name`，允许通知
+- **桌面**：使用 [ntfy 桌面版](https://ntfy.sh) 或 PWA
+
+**第三步：配置 notify-me**
+
+```yaml
+# ~/.notify-me.yaml
+channels:
+  ntfy:
+    enabled: true
+    url: "https://ntfy.sh/my-dev-notifications-a1b2c3"
+```
+
+或者直接用环境变量（无需配置文件）：
+
+```bash
+export NOTIFY_ME_NTFY_URL="https://ntfy.sh/my-dev-notifications-a1b2c3"
+```
+
+**第四步：测试**
+
+```bash
+notify-me "Hello from notify-me"
+```
+
+几秒内你应该能在订阅设备上收到推送通知。
+
+> **提示**：如果推送内容敏感，可以[自建 ntfy.sh](https://docs.ntfy.sh/install/) 或开启[访问控制](https://docs.ntfy.sh/config/#access-control)。
+
 ## 工作原理
 
 ```
@@ -216,18 +282,22 @@ slack:
 <details>
 <summary>ntfy.sh（SSH 远程降级方案）</summary>
 
-ntfy.sh 是一个免费的开源推送通知服务，无需注册。
+免费开源推送通知服务。**无需注册。** SSH 下最佳方案。
 
-1. 选一个唯一的主题名（类似频道名）
-2. 在 [ntfy 应用](https://ntfy.sh)（iOS/Android/Web）中订阅该主题
+1. 选一个唯一的主题名（如 `my-dev-alerts-xyz123`）
+2. 在你的设备上订阅：
+   - **iOS**：[App Store](https://apps.apple.com/us/app/ntfy/id1625396347)
+   - **Android**：[Google Play](https://play.google.com/store/apps/details?id=io.heckel.ntfy)
+   - **浏览器**：打开 `https://ntfy.sh/your-topic` 允许通知
+3. 测试：`curl -d "Hello" https://ntfy.sh/your-topic`
 
 ```yaml
 ntfy:
   enabled: true
-  url: "https://ntfy.sh/your-unique-topic-name"
+  url: "https://ntfy.sh/your-topic-name"
 ```
 
-也可以自建 ntfy.sh 服务以保护隐私。
+自建服务：`docker run -p 80:80 binwiederhier/ntfy serve` — 详见 [文档](https://docs.ntfy.sh/install/)。
 </details>
 
 <details>

@@ -136,6 +136,72 @@ Override any config value with `NOTIFY_ME_*` environment variables:
 
 Environment variables take precedence over the YAML config file.
 
+## SSH & Remote Setup
+
+When you're connected via SSH, desktop notifications won't reach your local machine. notify-me uses a progressive fallback:
+
+1. **Terminal bell (`\a`)** — zero config, but your local terminal must support it
+2. **ntfy.sh** — push notification to your phone/browser, one URL to configure
+
+### Enabling Terminal Bell Over SSH
+
+Your local terminal decides whether `\a` produces a sound. Here's how to enable it:
+
+| Terminal | How to enable |
+|----------|---------------|
+| **Windows Terminal** | Open `settings.json` (Settings → bottom left "Open JSON file"), add to your profile: `"bellStyle": "audible"` or `"bellStyle": "all"`. Optionally set `"bellSound": "C:/path/to/bell.wav"` for a custom sound |
+| **iTerm2** (macOS) | Preferences → Profiles → Terminal → check "Audible bell" |
+| **macOS Terminal** | Preferences → Profiles → Advanced → check "Audible bell" |
+| **VS Code Terminal** | Add to settings: `"terminal.integrated.enableBell": true` |
+| **PuTTY** | Configuration → Terminal → Bell → set to "Play default sound" |
+| **tmux** | Add to `~/.tmux.conf`: `set -g bell-action any` |
+
+After enabling, test with: `printf '\a'` — you should hear a beep.
+
+### Setting Up ntfy.sh (Recommended for SSH)
+
+ntfy.sh is the most reliable way to get notifications over SSH. No account, no app install required on the server.
+
+**Step 1: Pick a unique topic name**
+
+A topic is like a channel — anyone who knows the name can send/receive. Use something unique:
+
+```
+my-dev-notifications-a1b2c3
+```
+
+**Step 2: Subscribe on your device**
+
+- **Phone**: Install [ntfy app](https://ntfy.sh) ([iOS](https://apps.apple.com/us/app/ntfy/id1625396347) / [Android](https://play.google.com/store/apps/details?id=io.heckel.ntfy)), subscribe to your topic
+- **Browser**: Open `https://ntfy.sh/your-topic-name` and allow notifications
+- **Desktop**: [ntfy desktop app](https://ntfy.sh) or PWA
+
+**Step 3: Configure notify-me**
+
+```yaml
+# ~/.notify-me.yaml
+channels:
+  ntfy:
+    enabled: true
+    url: "https://ntfy.sh/my-dev-notifications-a1b2c3"
+```
+
+Or via environment variable (no config file needed):
+
+```bash
+export NOTIFY_ME_NTFY_URL="https://ntfy.sh/my-dev-notifications-a1b2c3"
+```
+
+**Step 4: Test**
+
+```bash
+notify-me "Hello from notify-me"
+```
+
+You should receive a push notification on your subscribed device within seconds.
+
+> **Tip**: For sensitive notifications, you can [self-host ntfy.sh](https://docs.ntfy.sh/install/) or enable [access control](https://docs.ntfy.sh/config/#access-control) on a topic.
+
 ## How It Works
 
 ```
@@ -216,18 +282,22 @@ slack:
 <details>
 <summary>ntfy.sh (SSH Fallback)</summary>
 
-ntfy.sh is a free, open-source push notification service. No account needed.
+Free, open-source push notification service. **No account needed.** Best option for SSH.
 
-1. Pick a unique topic name (like a channel name)
-2. Subscribe to it in the [ntfy app](https://ntfy.sh) (iOS/Android/Web)
+1. Pick a unique topic name (e.g. `my-dev-alerts-xyz123`)
+2. Subscribe on your device:
+   - **iOS**: [App Store](https://apps.apple.com/us/app/ntfy/id1625396347)
+   - **Android**: [Google Play](https://play.google.com/store/apps/details?id=io.heckel.ntfy)
+   - **Browser**: Open `https://ntfy.sh/your-topic` and allow notifications
+3. Test: `curl -d "Hello" https://ntfy.sh/your-topic`
 
 ```yaml
 ntfy:
   enabled: true
-  url: "https://ntfy.sh/your-unique-topic-name"
+  url: "https://ntfy.sh/your-topic-name"
 ```
 
-You can also self-host ntfy.sh for privacy.
+Self-hosting: `docker run -p 80:80 binwiederhier/ntfy serve` — see [docs](https://docs.ntfy.sh/install/).
 </details>
 
 <details>
