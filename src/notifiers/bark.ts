@@ -19,7 +19,7 @@ export class BarkNotifier implements Notifier {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          title: options?.title ?? "notify-me",
+          title: options?.title ?? "ai-ding",
           body: message,
           sound: options?.sound ? "alarm" : undefined,
         }),

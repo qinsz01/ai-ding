@@ -25,8 +25,8 @@ All notable changes to this project will be documented in this file.
 - `--init` to create default config file
 - `--test` to verify all enabled channels
 - Subagent event filtering (only notifies on user-facing actions)
-- YAML config file (`~/.notify-me.yaml`)
-- Environment variable overrides (`NOTIFY_ME_*`)
+- YAML config file (`~/.ai-ding.yaml`)
+- Environment variable overrides (`AI_DING_*`)
 - Claude Code plugin manifest
 - Codex CLI plugin manifest
 - Dual-language README (English + Chinese)

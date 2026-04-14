@@ -37,4 +37,4 @@ remote:
 
 defaults:
   message: "Task completed"
-  title: "notify-me"
+  title: "ai-ding"

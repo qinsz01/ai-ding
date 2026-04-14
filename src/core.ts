@@ -62,9 +62,9 @@ export async function dispatch(
 
   if (notifiers.length === 0) {
     if (options?.channel) {
-      console.log(`[notify-me] Channel '${options.channel}' is not enabled or configured.`);
+      console.log(`[ai-ding] Channel '${options.channel}' is not enabled or configured.`);
     } else {
-      console.log("[notify-me] No channels enabled or configured.");
+      console.log("[ai-ding] No channels enabled or configured.");
     }
     return [];
   }
@@ -81,12 +81,12 @@ export async function dispatch(
   // Print per-channel results
   for (const r of results) {
     const icon = r.success ? "✓" : "✗";
-    console.log(`[notify-me] ${icon} ${r.channel}: ${r.message}`);
+    console.log(`[ai-ding] ${icon} ${r.channel}: ${r.message}`);
   }
 
   const ok = results.filter((r) => r.success).length;
   const fail = results.filter((r) => !r.success).length;
-  console.log(`[notify-me] Done: ${ok} sent${fail > 0 ? `, ${fail} failed` : ""}.`);
+  console.log(`[ai-ding] Done: ${ok} sent${fail > 0 ? `, ${fail} failed` : ""}.`);
 
   return results;
 }

@@ -30,7 +30,7 @@ const baseConfig: Config = {
     },
   },
   remote: { fallback_order: ["sound", "ntfy"] },
-  defaults: { message: "Task completed", title: "notify-me" },
+  defaults: { message: "Task completed", title: "ai-ding" },
 };
 
 describe("dispatch", () => {

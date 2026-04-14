@@ -9,7 +9,7 @@ export class SlackNotifier implements Notifier {
   }
 
   async send(message: string, options?: NotifyOptions): Promise<NotifyResult> {
-    const title = options?.title ?? "notify-me";
+    const title = options?.title ?? "ai-ding";
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 5000);
 

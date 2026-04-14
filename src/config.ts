@@ -23,7 +23,7 @@ const DEFAULT_CONFIG: Config = {
     },
   },
   remote: { fallback_order: ["sound", "ntfy"] },
-  defaults: { message: "Task completed", title: "notify-me" },
+  defaults: { message: "Task completed", title: "ai-ding" },
 };
 
 function deepMerge(target: Record<string, unknown>, source: Record<string, unknown>): Record<string, unknown> {
@@ -49,18 +49,18 @@ function deepMerge(target: Record<string, unknown>, source: Record<string, unkno
 }
 
 const ENV_VAR_MAP: Record<string, string> = {
-  NOTIFY_ME_TELEGRAM_BOT_TOKEN: "channels.telegram.bot_token",
-  NOTIFY_ME_TELEGRAM_CHAT_ID: "channels.telegram.chat_id",
-  NOTIFY_ME_BARK_URL: "channels.bark.url",
-  NOTIFY_ME_BARK_DEVICE_KEY: "channels.bark.device_key",
-  NOTIFY_ME_SERVERCHAN_SENDKEY: "channels.serverchan.sendkey",
-  NOTIFY_ME_SLACK_WEBHOOK_URL: "channels.slack.webhook_url",
-  NOTIFY_ME_NTFY_URL: "channels.ntfy.url",
-  NOTIFY_ME_EMAIL_SMTP_HOST: "channels.email.smtp_host",
-  NOTIFY_ME_EMAIL_FROM: "channels.email.from",
-  NOTIFY_ME_EMAIL_TO: "channels.email.to",
-  NOTIFY_ME_EMAIL_USER: "channels.email.user",
-  NOTIFY_ME_EMAIL_PASSWORD: "channels.email.password",
+  AI_DING_TELEGRAM_BOT_TOKEN: "channels.telegram.bot_token",
+  AI_DING_TELEGRAM_CHAT_ID: "channels.telegram.chat_id",
+  AI_DING_BARK_URL: "channels.bark.url",
+  AI_DING_BARK_DEVICE_KEY: "channels.bark.device_key",
+  AI_DING_SERVERCHAN_SENDKEY: "channels.serverchan.sendkey",
+  AI_DING_SLACK_WEBHOOK_URL: "channels.slack.webhook_url",
+  AI_DING_NTFY_URL: "channels.ntfy.url",
+  AI_DING_EMAIL_SMTP_HOST: "channels.email.smtp_host",
+  AI_DING_EMAIL_FROM: "channels.email.from",
+  AI_DING_EMAIL_TO: "channels.email.to",
+  AI_DING_EMAIL_USER: "channels.email.user",
+  AI_DING_EMAIL_PASSWORD: "channels.email.password",
 };
 
 function setNestedValue(obj: Record<string, unknown>, path: string, value: string): void {
@@ -79,8 +79,8 @@ export function loadConfig(configPath?: string): Config {
   const paths = configPath
     ? [configPath]
     : [
-        resolve(process.env.HOME || "~", ".notify-me.yaml"),
-        resolve(".notify-me.yaml"),
+        resolve(process.env.HOME || "~", ".ai-ding.yaml"),
+        resolve(".ai-ding.yaml"),
       ];
 
   for (const p of paths) {

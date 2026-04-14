@@ -13,7 +13,7 @@ export class DesktopNotifier implements Notifier {
   }
 
   async send(message: string, options?: NotifyOptions): Promise<NotifyResult> {
-    const title = options?.title ?? "notify-me";
+    const title = options?.title ?? "ai-ding";
 
     try {
       if (process.platform === "darwin") {

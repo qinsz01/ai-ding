@@ -45,7 +45,7 @@ describe("EmailNotifier", () => {
   it("uses default title when none provided", async () => {
     await notifier.send("Hello");
     const mail = sendMailSpy.mock.calls[0][0];
-    expect(mail.subject).toBe("notify-me");
+    expect(mail.subject).toBe("ai-ding");
   });
 
   it("returns failure on send error", async () => {

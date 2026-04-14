@@ -37,7 +37,7 @@ describe("NtfyNotifier", () => {
   it("uses default title if none provided", async () => {
     await notifier.send("Hello");
     const init = fetchSpy.mock.calls[0][1];
-    expect(init?.headers).toHaveProperty("Title", "notify-me");
+    expect(init?.headers).toHaveProperty("Title", "ai-ding");
   });
 
   it("returns failure on HTTP error", async () => {

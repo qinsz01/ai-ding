@@ -16,7 +16,7 @@ export class NtfyNotifier implements Notifier {
       const res = await fetch(this.url, {
         method: "POST",
         headers: {
-          Title: options?.title ?? "notify-me",
+          Title: options?.title ?? "ai-ding",
           Priority: options?.urgency === "critical" ? "urgent" : "default",
         },
         body: message,

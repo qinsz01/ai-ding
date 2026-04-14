@@ -1,18 +1,18 @@
 **English** | [中文](README.zh.md)
 
-<h1 align="center">🔔 notify-me</h1>
+<h1 align="center">🔔 ai-ding</h1>
 
 <p align="center">
   <strong>Never stare at a terminal waiting for AI to finish again.</strong>
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/notify-me"><img src="https://img.shields.io/npm/v/notify-me.svg" alt="npm"></a>
-  <a href="https://github.com/qinsz01/notify-me/actions"><img src="https://img.shields.io/github/actions/workflow/status/qinsz01/notify-me/ci.yml?branch=master" alt="CI"></a>
-  <a href="https://www.npmjs.com/package/notify-me"><img src="https://img.shields.io/npm/dw/notify-me" alt="downloads"></a>
+  <a href="https://www.npmjs.com/package/ai-ding"><img src="https://img.shields.io/npm/v/ai-ding.svg" alt="npm"></a>
+  <a href="https://github.com/qinsz01/ai-ding/actions"><img src="https://img.shields.io/github/actions/workflow/status/qinsz01/ai-ding/ci.yml?branch=master" alt="CI"></a>
+  <a href="https://www.npmjs.com/package/ai-ding"><img src="https://img.shields.io/npm/dw/ai-ding" alt="downloads"></a>
   <img src="https://img.shields.io/badge/Node.js-18%2B-brightgreen" alt="Node.js">
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
-  <a href="https://github.com/qinsz01/notify-me/issues"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
+  <a href="https://github.com/qinsz01/ai-ding/issues"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
 </p>
 
 <p align="center">
@@ -23,11 +23,11 @@
 
 ---
 
-## Why notify-me?
+## Why ai-ding?
 
 You run `claude` and wait... and wait... 10 minutes later you realize it finished 5 minutes ago. Or worse — it's asking you a question and you didn't notice.
 
-**notify-me alerts you the instant your AI assistant needs your attention:**
+**ai-ding alerts you the instant your AI assistant needs your attention:**
 
 - When it **finishes responding** — with a summary of what it said
 - When it **asks you a question** — so you can answer immediately
@@ -47,15 +47,15 @@ You run `claude` and wait... and wait... 10 minutes later you realize it finishe
 | **ntfy.sh** | ✅ | ✅ | ✅ | Topic URL |
 | **Email** | ✅ | ✅ | ✅ | SMTP credentials |
 
-Sound + desktop work out of the box. Enable more channels in `~/.notify-me.yaml`.
+Sound + desktop work out of the box. Enable more channels in `~/.ai-ding.yaml`.
 
 ## Quick Start
 
 ### As a Claude Code plugin (recommended)
 
 ```
-/plugin marketplace add qinsz01/notify-me
-/plugin install notify-me@qinsz01
+/plugin marketplace add qinsz01/ai-ding
+/plugin install ai-ding@qinsz01
 ```
 
 That's it. You'll get notifications automatically when Claude finishes, asks a question, or needs permission.
@@ -63,9 +63,9 @@ That's it. You'll get notifications automatically when Claude finishes, asks a q
 ### As a CLI tool
 
 ```bash
-npm install -g notify-me
-notify-me --init    # Create ~/.notify-me.yaml
-notify-me --test    # Test all enabled channels
+npm install -g ai-ding
+ai-ding --init    # Create ~/.ai-ding.yaml
+ai-ding --test    # Test all enabled channels
 ```
 
 ### As a Codex CLI plugin
@@ -76,22 +76,22 @@ Add the marketplace to `~/.agents/plugins/marketplace.json` or your repo's `.age
 
 ```bash
 # Send a notification (auto-detects environment)
-notify-me "Build complete"
+ai-ding "Build complete"
 
 # With a custom title
-notify-me --title "CI Pipeline" "All tests passed"
+ai-ding --title "CI Pipeline" "All tests passed"
 
 # Send to a specific channel only
-notify-me --channel telegram "Deploy failed"
+ai-ding --channel telegram "Deploy failed"
 
 # Disable specific channels
-notify-me --no-desktop --no-sound "Silent alert"
+ai-ding --no-desktop --no-sound "Silent alert"
 
 # Test all configured channels
-notify-me --test
+ai-ding --test
 
 # Initialize config file
-notify-me --init
+ai-ding --init
 ```
 
 ### Output
@@ -99,23 +99,23 @@ notify-me --init
 Every invocation prints per-channel results so you know exactly what happened:
 
 ```
-[notify-me] ✓ sound: terminal bell
-[notify-me] ✓ telegram: sent to chat 1234...
-[notify-me] ✓ slack: sent to Slack webhook
-[notify-me] Done: 3 sent.
+[ai-ding] ✓ sound: terminal bell
+[ai-ding] ✓ telegram: sent to chat 1234...
+[ai-ding] ✓ slack: sent to Slack webhook
+[ai-ding] Done: 3 sent.
 ```
 
 If a channel fails, it shows the error:
 
 ```
-[notify-me] ✓ sound: terminal bell
-[notify-me] ✗ telegram: HTTP 401: Unauthorized
-[notify-me] Done: 1 sent, 1 failed.
+[ai-ding] ✓ sound: terminal bell
+[ai-ding] ✗ telegram: HTTP 401: Unauthorized
+[ai-ding] Done: 1 sent, 1 failed.
 ```
 
 ### Smart Notifications (Plugin Mode)
 
-When installed as a Claude Code plugin, notify-me sends contextual notifications:
+When installed as a Claude Code plugin, ai-ding sends contextual notifications:
 
 | When | Notification |
 |------|-------------|
@@ -128,7 +128,7 @@ Subagent activity (Explore, code-reviewer, etc.) is **not** notified — only ma
 
 ## Configuration
 
-Edit `~/.notify-me.yaml`:
+Edit `~/.ai-ding.yaml`:
 
 ```yaml
 channels:
@@ -170,33 +170,33 @@ remote:
 
 defaults:
   message: "Task completed"
-  title: "notify-me"
+  title: "ai-ding"
 ```
 
 ### Environment Variables
 
-Override any config value with `NOTIFY_ME_*` environment variables:
+Override any config value with `AI_DING_*` environment variables:
 
 | Variable | Config Path |
 |----------|-------------|
-| `NOTIFY_ME_TELEGRAM_BOT_TOKEN` | `channels.telegram.bot_token` |
-| `NOTIFY_ME_TELEGRAM_CHAT_ID` | `channels.telegram.chat_id` |
-| `NOTIFY_ME_SLACK_WEBHOOK_URL` | `channels.slack.webhook_url` |
-| `NOTIFY_ME_NTFY_URL` | `channels.ntfy.url` |
-| `NOTIFY_ME_BARK_URL` | `channels.bark.url` |
-| `NOTIFY_ME_BARK_DEVICE_KEY` | `channels.bark.device_key` |
-| `NOTIFY_ME_SERVERCHAN_SENDKEY` | `channels.serverchan.sendkey` |
-| `NOTIFY_ME_EMAIL_SMTP_HOST` | `channels.email.smtp_host` |
-| `NOTIFY_ME_EMAIL_FROM` | `channels.email.from` |
-| `NOTIFY_ME_EMAIL_TO` | `channels.email.to` |
-| `NOTIFY_ME_EMAIL_USER` | `channels.email.user` |
-| `NOTIFY_ME_EMAIL_PASSWORD` | `channels.email.password` |
+| `AI_DING_TELEGRAM_BOT_TOKEN` | `channels.telegram.bot_token` |
+| `AI_DING_TELEGRAM_CHAT_ID` | `channels.telegram.chat_id` |
+| `AI_DING_SLACK_WEBHOOK_URL` | `channels.slack.webhook_url` |
+| `AI_DING_NTFY_URL` | `channels.ntfy.url` |
+| `AI_DING_BARK_URL` | `channels.bark.url` |
+| `AI_DING_BARK_DEVICE_KEY` | `channels.bark.device_key` |
+| `AI_DING_SERVERCHAN_SENDKEY` | `channels.serverchan.sendkey` |
+| `AI_DING_EMAIL_SMTP_HOST` | `channels.email.smtp_host` |
+| `AI_DING_EMAIL_FROM` | `channels.email.from` |
+| `AI_DING_EMAIL_TO` | `channels.email.to` |
+| `AI_DING_EMAIL_USER` | `channels.email.user` |
+| `AI_DING_EMAIL_PASSWORD` | `channels.email.password` |
 
 Environment variables take precedence over the YAML config file.
 
 ## SSH & Remote Setup
 
-When you're connected via SSH, desktop notifications won't reach your local machine. notify-me uses a progressive fallback:
+When you're connected via SSH, desktop notifications won't reach your local machine. ai-ding uses a progressive fallback:
 
 1. **Terminal bell (`\a`)** — zero config, but may not work through tmux
 2. **ntfy.sh** — push notification to your phone/browser, one URL to configure (recommended)
@@ -238,7 +238,7 @@ channels:
 Or via environment variable:
 
 ```bash
-export NOTIFY_ME_NTFY_URL="https://ntfy.sh/my-dev-notifications-a1b2c3"
+export AI_DING_NTFY_URL="https://ntfy.sh/my-dev-notifications-a1b2c3"
 ```
 
 ## How It Works
@@ -347,7 +347,7 @@ Yes. Terminal bell (`\a`) works over SSH with no configuration. For reliable not
 <details>
 <summary>What works without any configuration?</summary>
 
-Sound and desktop notifications work immediately after `npm install -g notify-me`. No config file needed. For more channels (Telegram, Slack, etc.), run `notify-me --init` and edit `~/.notify-me.yaml`.
+Sound and desktop notifications work immediately after `npm install -g ai-ding`. No config file needed. For more channels (Telegram, Slack, etc.), run `ai-ding --init` and edit `~/.ai-ding.yaml`.
 </details>
 
 <details>
@@ -359,7 +359,7 @@ Yes. All enabled channels fire in parallel. You can have desktop + sound + Teleg
 <details>
 <summary>How is this different from cc-notify?</summary>
 
-cc-notify is a Tauri desktop app (Rust + React). notify-me is a lightweight Node.js CLI — install in seconds, no GUI needed. notify-me also supports China-specific channels (Server酱, Bark) and works as both a Claude Code and Codex CLI plugin.
+cc-notify is a Tauri desktop app (Rust + React). ai-ding is a lightweight Node.js CLI — install in seconds, no GUI needed. ai-ding also supports China-specific channels (Server酱, Bark) and works as both a Claude Code and Codex CLI plugin.
 </details>
 
 ## Contributing
@@ -367,8 +367,8 @@ cc-notify is a Tauri desktop app (Rust + React). notify-me is a lightweight Node
 PRs are welcome! Fork the repo, make your changes, and open a pull request.
 
 ```bash
-git clone https://github.com/qinsz01/notify-me.git
-cd notify-me
+git clone https://github.com/qinsz01/ai-ding.git
+cd ai-ding
 npm install
 npm test
 ```

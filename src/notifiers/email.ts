@@ -23,7 +23,7 @@ export class EmailNotifier implements Notifier {
       const info = await transporter.sendMail({
         from: this.config.from,
         to: this.config.to,
-        subject: options?.title ?? "notify-me",
+        subject: options?.title ?? "ai-ding",
         text: message,
       });
       return { channel: this.name, success: true, message: `sent to ${this.config.to} (${info.messageId})` };

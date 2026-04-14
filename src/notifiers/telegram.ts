@@ -11,7 +11,7 @@ export class TelegramNotifier implements Notifier {
   }
 
   async send(message: string, options?: NotifyOptions): Promise<NotifyResult> {
-    const title = options?.title ?? "notify-me";
+    const title = options?.title ?? "ai-ding";
     const text = `*${title}*\n${message}`;
 
     const controller = new AbortController();

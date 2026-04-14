@@ -8,7 +8,7 @@ describe("loadConfig", () => {
   let tmpDir: string;
 
   beforeEach(() => {
-    tmpDir = join(tmpdir(), `notify-me-test-${Date.now()}`);
+    tmpDir = join(tmpdir(), `ai-ding-test-${Date.now()}`);
     mkdirSync(tmpDir, { recursive: true });
   });
 
@@ -20,7 +20,7 @@ describe("loadConfig", () => {
     const config = loadConfig(join(tmpDir, "nonexistent.yaml"));
     expect(config.channels.desktop.enabled).toBe(true);
     expect(config.channels.telegram.enabled).toBe(false);
-    expect(config.defaults.title).toBe("notify-me");
+    expect(config.defaults.title).toBe("ai-ding");
   });
 
   it("merges YAML config with defaults", () => {
@@ -45,13 +45,13 @@ defaults:
   });
 
   it("reads config from env vars", () => {
-    process.env.NOTIFY_ME_TELEGRAM_BOT_TOKEN = "env:token";
-    process.env.NOTIFY_ME_TELEGRAM_CHAT_ID = "env:chat";
+    process.env.AI_DING_TELEGRAM_BOT_TOKEN = "env:token";
+    process.env.AI_DING_TELEGRAM_CHAT_ID = "env:chat";
     const config = loadConfig(join(tmpDir, "nonexistent.yaml"));
     expect(config.channels.telegram.bot_token).toBe("env:token");
     expect(config.channels.telegram.chat_id).toBe("env:chat");
-    delete process.env.NOTIFY_ME_TELEGRAM_BOT_TOKEN;
-    delete process.env.NOTIFY_ME_TELEGRAM_CHAT_ID;
+    delete process.env.AI_DING_TELEGRAM_BOT_TOKEN;
+    delete process.env.AI_DING_TELEGRAM_CHAT_ID;
   });
 
   it("env vars override YAML values", () => {
@@ -60,9 +60,9 @@ defaults:
       configPath,
       `channels:\n  telegram:\n    bot_token: "from-yaml"\n`
     );
-    process.env.NOTIFY_ME_TELEGRAM_BOT_TOKEN = "from-env";
+    process.env.AI_DING_TELEGRAM_BOT_TOKEN = "from-env";
     const config = loadConfig(configPath);
     expect(config.channels.telegram.bot_token).toBe("from-env");
-    delete process.env.NOTIFY_ME_TELEGRAM_BOT_TOKEN;
+    delete process.env.AI_DING_TELEGRAM_BOT_TOKEN;
   });
 });

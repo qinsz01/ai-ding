@@ -17,7 +17,7 @@ export class ServerChanNotifier implements Notifier {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams({
-          title: options?.title ?? "notify-me",
+          title: options?.title ?? "ai-ding",
           desp: message,
         }).toString(),
         signal: controller.signal,
