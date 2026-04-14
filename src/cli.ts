@@ -74,8 +74,10 @@ async function handleHook(): Promise<void> {
       break;
     }
     case "Notification": {
-      const notifType = data.notification_type ?? data.message ?? "";
-      if (String(notifType).includes("idle_prompt") || String(data.message).includes("idle")) {
+      const msg = String(data.message ?? "");
+      const notifType = String(data.notification_type ?? "");
+      if (notifType === "idle_prompt" || notifType === "permission_prompt" ||
+          msg.includes("idle") || msg.includes("permission")) {
         await dispatch("Claude is waiting for your input", config, env, { title: "Needs Attention" });
       }
       break;
@@ -86,6 +88,11 @@ async function handleHook(): Promise<void> {
         const questions = extractQuestions(data.tool_input);
         await dispatch(questions, config, env, { title: "Question" });
       }
+      break;
+    }
+    case "PermissionRequest": {
+      const toolName = String(data.tool_name ?? "");
+      await dispatch(`Permission needed: ${toolName || "tool"}`, config, env, { title: "Needs Attention" });
       break;
     }
   }
