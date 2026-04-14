@@ -1,0 +1,40 @@
+{
+  "name": "notify-me",
+  "version": "1.0.0",
+  "description": "Cross-platform notifications for Claude Code and Codex CLI",
+  "type": "module",
+  "bin": {
+    "notify-me": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "node --experimental-vm-modules node_modules/.bin/vitest run",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "commander": "^13.0.0",
+    "js-yaml": "^4.1.0",
+    "nodemailer": "^6.10.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^22.0.0",
+    "@types/nodemailer": "^6.4.17",
+    "tsup": "^8.0.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "dist",
+    "hooks",
+    "skills",
+    ".claude-plugin",
+    ".codex-plugin",
+    "default-config.yaml"
+  ],
+  "license": "MIT"
+}
