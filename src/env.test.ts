@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { detectEnvironment } from "./env.js";
-import type { Environment } from "./notifiers/types.js";
+
 
 describe("detectEnvironment", () => {
   const originalEnv = { ...process.env };

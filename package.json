@@ -1,18 +1,25 @@
 {
-  "name": "notify-me",
+  "name": "ai-ding",
   "version": "1.0.0",
   "description": "Cross-platform notifications for Claude Code and Codex CLI",
   "type": "module",
-  "repository": { "type": "git", "url": "git+https://github.com/qinsz01/notify-me.git" },
-  "homepage": "https://github.com/qinsz01/notify-me#readme",
-  "bugs": { "url": "https://github.com/qinsz01/notify-me/issues" },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qinsz01/ai-ding.git"
+  },
+  "homepage": "https://github.com/qinsz01/ai-ding#readme",
+  "bugs": {
+    "url": "https://github.com/qinsz01/ai-ding/issues"
+  },
   "bin": {
-    "notify-me": "./dist/cli.js"
+    "ai-ding": "./dist/cli.js"
   },
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
     "test": "node --experimental-vm-modules node_modules/.bin/vitest run",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
@@ -21,11 +28,14 @@
     "nodemailer": "^6.10.0"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^22.0.0",
     "@types/nodemailer": "^6.4.17",
+    "eslint": "^10.2.0",
     "tsup": "^8.0.0",
     "typescript": "^5.7.0",
+    "typescript-eslint": "^8.58.2",
     "vitest": "^3.0.0"
   },
   "engines": {
