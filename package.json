@@ -11,6 +11,24 @@
   "bugs": {
     "url": "https://github.com/qinsz01/ai-ding/issues"
   },
+  "keywords": [
+    "claude-code",
+    "codex",
+    "notification",
+    "alert",
+    "telegram",
+    "slack",
+    "ntfy",
+    "bark",
+    "email",
+    "ssh",
+    "desktop",
+    "cli"
+  ],
+  "author": { "name": "qinsz01" },
+  "exports": {
+    ".": "./dist/cli.js"
+  },
   "bin": {
     "ai-ding": "./dist/cli.js"
   },
