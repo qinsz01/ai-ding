@@ -1,0 +1,17 @@
+{
+  "name": "qinsz01",
+  "owner": {
+    "name": "qinsz01"
+  },
+  "plugins": [
+    {
+      "name": "notify-me",
+      "source": {
+        "source": "local",
+        "path": "."
+      },
+      "description": "Cross-platform notifications for Claude Code — desktop, sound, Telegram, Bark, Slack, email, and more. Works over SSH.",
+      "version": "1.0.0"
+    }
+  ]
+}
